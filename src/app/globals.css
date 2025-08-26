@@ -2,12 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 @layer base {
   html {
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'Sora', system-ui, sans-serif;
   }
   
   body {
@@ -16,17 +17,17 @@
   }
   
   * {
-    @apply border-[#2a2a2a];
+    @apply border-transparent;
   }
 }
 
 @layer components {
   .dark-card {
-    @apply bg-white rounded-[22px] shadow-lg border border-gray-100;
+    @apply bg-[#312F2C] rounded-[22px] shadow-lg;
   }
   
   .dark-button {
-    @apply bg-white border border-gray-200 rounded-[22px] hover:bg-gray-50 transition-all duration-300 text-gray-700;
+    @apply bg-[#312F2C] rounded-[22px] hover:bg-[#3A3835] transition-all duration-300 text-[#F0EDE5];
   }
   
   .accent-button {
@@ -34,7 +35,7 @@
   }
   
   .glass-nav {
-    @apply bg-[#373539]/95 backdrop-blur-md border-b border-[#2a2a2a];
+    @apply bg-[#373539]/95 backdrop-blur-md;
   }
   
   .progress-bar {
@@ -46,7 +47,7 @@
   }
   
   .metric-card {
-    @apply bg-white rounded-[22px] p-6 shadow-lg border border-gray-100;
+    @apply bg-[#312F2C] rounded-[22px] p-6 shadow-lg;
   }
   
   .metric-card-accent {
@@ -54,19 +55,94 @@
   }
   
   .metric-card-light {
-    @apply bg-gray-50 rounded-[22px] p-6 shadow-lg border border-gray-200;
+    @apply bg-[#312F2C] rounded-[22px] p-6 shadow-lg;
   }
   
   .task-item {
-    @apply flex items-center space-x-3 p-3 rounded-xl hover:bg-gray-50 transition-colors;
+    @apply flex items-center space-x-3 p-3 rounded-xl hover:bg-[#3A3835] transition-colors;
   }
   
   .checkbox {
-    @apply w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center;
+    @apply w-5 h-5 rounded-full border-2 border-gray-400 flex items-center justify-center;
   }
   
   .checkbox-checked {
     @apply bg-[#007AFF] border-[#007AFF];
+  }
+  
+  /* Sora Font Utilities */
+  .sora-black {
+    font-family: "Sora", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+  }
+  
+  .sora-heavy {
+    font-family: "Sora", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+  }
+  
+  .sora-bold {
+    font-family: "Sora", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+  }
+  
+  .sora-medium {
+    font-family: "Sora", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+  }
+  
+  .sora-regular {
+    font-family: "Sora", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  .sora-light {
+    font-family: "Sora", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+  }
+  
+  .sora-thin {
+    font-family: "Sora", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 100;
+    font-style: normal;
+  }
+  
+  /* Theme Colors */
+  .bg-dark {
+    @apply bg-[#373539];
+  }
+  
+  .bg-light {
+    @apply bg-[#F0EDE5];
+  }
+  
+  .card-dark {
+    @apply bg-[#312F2C];
+  }
+  
+  .card-light {
+    @apply bg-white;
+  }
+  
+  .text-dark {
+    @apply text-[#373539];
+  }
+  
+  .text-light {
+    @apply text-[#F0EDE5];
   }
 }
 
