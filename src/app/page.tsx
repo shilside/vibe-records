@@ -2,7 +2,23 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Github, Plus, Settings, User, BarChart3, CheckCircle2, Clock, Star, MoreVertical, TrendingUp, Activity, Zap } from 'lucide-react'
+import { 
+  Github, 
+  Plus, 
+  Settings, 
+  User, 
+  BarChart3, 
+  CheckCircle2, 
+  Clock, 
+  Star, 
+  MoreVertical, 
+  TrendingUp, 
+  Activity, 
+  Zap,
+  Target,
+  Lightbulb,
+  Rocket
+} from 'lucide-react'
 import ProjectCard from '@/components/ProjectCard'
 import Header from '@/components/Header'
 import Sidebar from '@/components/Sidebar'
@@ -69,15 +85,18 @@ const dummyProjects: Project[] = [
 export default function Dashboard() {
   const [projects, setProjects] = useState<Project[]>(dummyProjects)
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
 
   const addNewProject = () => {
     // TODO: Implement GitHub repo selection
     console.log('Add new project')
   }
 
+  const totalProgress = Math.round(projects.reduce((sum, p) => sum + p.progress, 0) / projects.length)
+  const activeProjects = projects.filter(p => p.status === 'active').length
+  const totalPotential = Math.round(projects.reduce((sum, p) => sum + p.potentialScore, 0) / projects.length * 10)
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
+    <div className="min-h-screen bg-black">
       {/* Mobile Header */}
       <Header 
         onMenuClick={() => setSidebarOpen(true)}
@@ -97,10 +116,10 @@ export default function Dashboard() {
           <div className="mb-10">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl font-inter">
+                <h1 className="text-4xl font-bold text-white sm:text-5xl font-inter">
                   Your vibes
                 </h1>
-                <p className="mt-3 text-base text-gray-600">
+                <p className="mt-3 text-base text-[#adadad]">
                   Track progress across all your projects
                 </p>
               </div>
@@ -109,7 +128,7 @@ export default function Dashboard() {
               <div className="mt-6 sm:mt-0">
                 <button
                   onClick={addNewProject}
-                  className="gradient-button inline-flex items-center px-6 py-3"
+                  className="accent-button inline-flex items-center px-6 py-3"
                 >
                   <Plus className="h-5 w-5 mr-2" />
                   Add new
@@ -118,55 +137,67 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Quick Stats Row */}
-          <div className="mb-8 grid grid-cols-3 gap-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="glass-card p-4 text-center"
-            >
-              <div className="w-10 h-10 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-2">
-                <TrendingUp className="h-5 w-5 text-gray-600" />
-              </div>
-              <p className="text-sm font-medium text-gray-600">Total</p>
-              <p className="text-xl font-bold text-gray-900">{projects.length}</p>
-            </motion.div>
+          {/* AI Insights Metrics */}
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold text-white mb-6">AI Insights</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="metric-card-accent"
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-2xl font-bold text-white">{totalProgress}%</p>
+                    <p className="text-sm text-white/80 mt-1">Overall Progress</p>
+                  </div>
+                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                    <Target className="h-6 w-6 text-white" />
+                  </div>
+                </div>
+              </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="glass-card p-4 text-center"
-            >
-              <div className="w-10 h-10 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-2">
-                <Activity className="h-5 w-5 text-gray-600" />
-              </div>
-              <p className="text-sm font-medium text-gray-600">Active</p>
-              <p className="text-xl font-bold text-gray-900">
-                {projects.filter(p => p.status === 'active').length}
-              </p>
-            </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="metric-card"
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-2xl font-bold text-white">{totalPotential}</p>
+                    <p className="text-sm text-[#9b9a9b] mt-1">Potential Score</p>
+                  </div>
+                  <div className="w-12 h-12 bg-[#2a2a2a] rounded-full flex items-center justify-center">
+                    <Lightbulb className="h-6 w-6 text-[#adadad]" />
+                  </div>
+                </div>
+              </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="glass-card p-4 text-center"
-            >
-              <div className="w-10 h-10 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-2">
-                <Zap className="h-5 w-5 text-gray-600" />
-              </div>
-              <p className="text-sm font-medium text-gray-600">Avg</p>
-              <p className="text-xl font-bold text-gray-900">
-                {Math.round(projects.reduce((sum, p) => sum + p.progress, 0) / projects.length)}%
-              </p>
-            </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="metric-card-light"
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-2xl font-bold text-[#d7d7d7]">{activeProjects}</p>
+                    <p className="text-sm text-[#8e8e8e] mt-1">Active Projects</p>
+                  </div>
+                  <div className="w-12 h-12 bg-[#1e1e1e] rounded-full flex items-center justify-center">
+                    <Rocket className="h-6 w-6 text-[#adadad]" />
+                  </div>
+                </div>
+              </motion.div>
+            </div>
           </div>
 
-          {/* Projects List */}
-          <div className="space-y-6">
-            <div className="grid gap-6">
+          {/* Projects Section */}
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold text-white mb-6">Your Projects</h2>
+            <div className="space-y-6">
               {projects.map((project, index) => (
                 <motion.div
                   key={project.id}
@@ -176,7 +207,7 @@ export default function Dashboard() {
                 >
                   <ProjectCard 
                     project={project}
-                    viewMode={viewMode}
+                    viewMode="list"
                   />
                 </motion.div>
               ))}
@@ -189,18 +220,18 @@ export default function Dashboard() {
                 animate={{ opacity: 1, scale: 1 }}
                 className="text-center py-16"
               >
-                <div className="w-20 h-20 bg-gray-100 rounded-3xl flex items-center justify-center mx-auto mb-4">
-                  <Github className="h-10 w-10 text-gray-400" />
+                <div className="w-20 h-20 bg-[#1e1e1e] rounded-[22px] flex items-center justify-center mx-auto mb-4 border border-[#181818]">
+                  <Github className="h-10 w-10 text-[#adadad]" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                <h3 className="text-lg font-semibold text-white mb-2">
                   No projects yet
                 </h3>
-                <p className="text-gray-600 mb-6">
+                <p className="text-[#adadad] mb-6">
                   Start building your first vibe project.
                 </p>
                 <button
                   onClick={addNewProject}
-                  className="gradient-button inline-flex items-center px-6 py-3"
+                  className="accent-button inline-flex items-center px-6 py-3"
                 >
                   <Plus className="h-5 w-5 mr-2" />
                   Add Your First Project

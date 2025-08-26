@@ -25,9 +25,9 @@ export default function ProjectCard({ project, viewMode }: ProjectCardProps) {
   const [isExpanded, setIsExpanded] = useState(false)
 
   const getProgressBarColor = (progress: number) => {
-    if (progress >= 70) return 'bg-green-500'
-    if (progress >= 50) return 'bg-blue-500'
-    return 'bg-gray-400'
+    if (progress >= 70) return 'bg-[#707c2e]'
+    if (progress >= 50) return 'bg-[#5a6a24]'
+    return 'bg-[#8e8e8e]'
   }
 
   const completedTasks = project.tasks.filter(task => task.completed).length
@@ -36,13 +36,13 @@ export default function ProjectCard({ project, viewMode }: ProjectCardProps) {
   return (
     <motion.div
       layout
-      className="glass-card p-6 transition-all duration-300 hover:shadow-[0_12px_40px_rgba(0,0,0,0.12)] hover:scale-[1.01]"
+      className="dark-card p-6 transition-all duration-300 hover:shadow-[0_12px_40px_rgba(0,0,0,0.4)] hover:scale-[1.01]"
     >
       {/* Card Content */}
       <div className="flex items-start justify-between">
         <div className="flex-1 min-w-0">
           {/* Project Name */}
-          <h3 className="text-xl font-bold text-gray-900 mb-4">
+          <h3 className="text-xl font-bold text-white mb-4">
             {project.name}
           </h3>
           
@@ -60,10 +60,10 @@ export default function ProjectCard({ project, viewMode }: ProjectCardProps) {
             
             {/* Progress Info */}
             <div className="flex items-center justify-between">
-              <span className="text-lg font-bold text-gray-900">
+              <span className="text-lg font-bold text-white">
                 {project.progress}%
               </span>
-              <span className="text-sm text-gray-600">
+              <span className="text-sm text-[#adadad]">
                 {totalTasks - completedTasks} tasks remaining
               </span>
             </div>
@@ -71,14 +71,14 @@ export default function ProjectCard({ project, viewMode }: ProjectCardProps) {
         </div>
 
         {/* Dropdown Menu Icon */}
-        <button className="ml-4 p-2 text-gray-400 hover:text-gray-600 rounded-xl hover:bg-gray-100/50 transition-all duration-200">
+        <button className="ml-4 p-2 text-[#adadad] hover:text-white rounded-xl hover:bg-[#2a2a2a] transition-all duration-200">
           <MoreVertical className="h-4 w-4" />
         </button>
       </div>
 
       {/* Project Stats */}
-      <div className="flex items-center justify-between pt-6 border-t border-gray-100">
-        <div className="flex items-center space-x-6 text-sm text-gray-500">
+      <div className="flex items-center justify-between pt-6 border-t border-[#181818]">
+        <div className="flex items-center space-x-6 text-sm text-[#8e8e8e]">
           <div className="flex items-center space-x-2">
             <Star className="h-4 w-4" />
             <span>{project.stars}</span>
@@ -99,7 +99,7 @@ export default function ProjectCard({ project, viewMode }: ProjectCardProps) {
         </div>
 
         {/* Language Badge */}
-        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-[#2a2a2a] text-[#adadad] border border-[#181818]">
           {project.language}
         </span>
       </div>
@@ -112,16 +112,16 @@ export default function ProjectCard({ project, viewMode }: ProjectCardProps) {
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="border-t border-gray-100 mt-6 pt-6"
+            className="border-t border-[#181818] mt-6 pt-6"
           >
             <div className="space-y-6">
               {/* Tasks Section */}
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <h4 className="text-sm font-semibold text-gray-900">
+                  <h4 className="text-sm font-semibold text-white">
                     Tasks ({completedTasks}/{totalTasks})
                   </h4>
-                  <span className="text-xs text-gray-500">
+                  <span className="text-xs text-[#8e8e8e]">
                     {Math.round((completedTasks / totalTasks) * 100)}% complete
                   </span>
                 </div>
@@ -130,14 +130,14 @@ export default function ProjectCard({ project, viewMode }: ProjectCardProps) {
                   {project.tasks.map((task) => (
                     <div key={task.id} className="flex items-center space-x-3">
                       {task.completed ? (
-                        <CheckCircle2 className="h-4 w-4 text-green-500 flex-shrink-0" />
+                        <CheckCircle2 className="h-4 w-4 text-[#707c2e] flex-shrink-0" />
                       ) : (
-                        <Circle className="h-4 w-4 text-gray-400 flex-shrink-0" />
+                        <Circle className="h-4 w-4 text-[#8e8e8e] flex-shrink-0" />
                       )}
                       <span className={`text-sm ${
                         task.completed 
-                          ? 'text-gray-500 line-through' 
-                          : 'text-gray-700'
+                          ? 'text-[#8e8e8e] line-through' 
+                          : 'text-white'
                       }`}>
                         {task.text}
                       </span>
@@ -147,20 +147,20 @@ export default function ProjectCard({ project, viewMode }: ProjectCardProps) {
               </div>
 
               {/* Actions */}
-              <div className="flex items-center justify-between pt-6 border-t border-gray-100">
+              <div className="flex items-center justify-between pt-6 border-t border-[#181818]">
                 <div className="flex items-center space-x-3">
-                  <button className="glass-button px-4 py-2 text-sm font-medium text-gray-700">
+                  <button className="dark-button px-4 py-2 text-sm font-medium text-white">
                     <Settings className="h-4 w-4 mr-2" />
                     Edit Progress
                   </button>
-                  <button className="glass-button px-4 py-2 text-sm font-medium text-gray-700">
+                  <button className="dark-button px-4 py-2 text-sm font-medium text-white">
                     <CheckCircle2 className="h-4 w-4 mr-2" />
                     Update Tasks
                   </button>
                 </div>
                 
                 <div className="flex items-center space-x-3">
-                  <button className="gradient-button px-4 py-2 text-sm">
+                  <button className="accent-button px-4 py-2 text-sm">
                     <ExternalLink className="h-4 w-4 mr-2" />
                     View on GitHub
                   </button>
