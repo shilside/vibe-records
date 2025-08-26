@@ -11,34 +11,34 @@
   }
   
   body {
-    @apply bg-black text-white;
+    @apply bg-[#373539] text-white;
     font-feature-settings: 'rlig' 1, 'calt' 1;
   }
   
   * {
-    @apply border-gray-800;
+    @apply border-[#2a2a2a];
   }
 }
 
 @layer components {
   .dark-card {
-    @apply bg-[#1e1e1e] border border-[#181818] rounded-[22px];
+    @apply bg-white rounded-[22px] shadow-lg border border-gray-100;
   }
   
   .dark-button {
-    @apply bg-[#1e1e1e] border border-[#181818] rounded-[22px] hover:bg-[#2a2a2a] transition-all duration-300;
+    @apply bg-white border border-gray-200 rounded-[22px] hover:bg-gray-50 transition-all duration-300 text-gray-700;
   }
   
   .accent-button {
-    @apply bg-[#707c2e] text-white font-semibold rounded-[22px] shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02];
+    @apply bg-[#007AFF] text-white font-semibold rounded-[22px] shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02];
   }
   
   .glass-nav {
-    @apply bg-black/95 backdrop-blur-md border-b border-[#181818];
+    @apply bg-[#373539]/95 backdrop-blur-md border-b border-[#2a2a2a];
   }
   
   .progress-bar {
-    @apply bg-[#2a2a2a] rounded-full overflow-hidden;
+    @apply bg-gray-200 rounded-full overflow-hidden;
   }
   
   .progress-fill {
@@ -46,15 +46,27 @@
   }
   
   .metric-card {
-    @apply bg-[#1e1e1e] border border-[#181818] rounded-[22px] p-6 shadow-lg;
+    @apply bg-white rounded-[22px] p-6 shadow-lg border border-gray-100;
   }
   
   .metric-card-accent {
-    @apply bg-[#707c2e] border border-[#5a6a24] rounded-[22px] p-6 shadow-lg;
+    @apply bg-[#007AFF] rounded-[22px] p-6 shadow-lg text-white;
   }
   
   .metric-card-light {
-    @apply bg-[#2a2a2a] border border-[#181818] rounded-[22px] p-6 shadow-lg;
+    @apply bg-gray-50 rounded-[22px] p-6 shadow-lg border border-gray-200;
+  }
+  
+  .task-item {
+    @apply flex items-center space-x-3 p-3 rounded-xl hover:bg-gray-50 transition-colors;
+  }
+  
+  .checkbox {
+    @apply w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center;
+  }
+  
+  .checkbox-checked {
+    @apply bg-[#007AFF] border-[#007AFF];
   }
 }
 
@@ -73,24 +85,24 @@
   }
   
   .glassmorphism {
-    background: rgba(30, 30, 30, 0.95);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(24, 24, 24, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.1);
   }
   
   .glassmorphism-dark {
-    background: rgba(0, 0, 0, 0.95);
+    background: rgba(55, 53, 57, 0.95);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(24, 24, 24, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
   
   .subtle-shadow {
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   }
   
   .hover-shadow {
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
   }
 }

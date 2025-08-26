@@ -3,25 +3,15 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { 
-  Github, 
   Plus, 
-  Settings, 
   User, 
-  BarChart3, 
+  Bell,
   CheckCircle2, 
-  Clock, 
-  Star, 
-  MoreVertical, 
-  TrendingUp, 
-  Activity, 
-  Zap,
-  Target,
-  Lightbulb,
-  Rocket
+  Circle,
+  Check,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react'
-import ProjectCard from '@/components/ProjectCard'
-import Header from '@/components/Header'
-import Sidebar from '@/components/Sidebar'
 import { Project } from '@/types/project'
 
 // Dummy data for MVP testing
@@ -29,7 +19,7 @@ const dummyProjects: Project[] = [
   {
     id: '1',
     name: 'Portfolio Site',
-    description: 'Personal portfolio website with modern design',
+    description: 'Personal portfolio website with modern design and animations',
     progress: 72,
     potentialScore: 7.9,
     status: 'active',
@@ -47,7 +37,7 @@ const dummyProjects: Project[] = [
   {
     id: '2',
     name: 'Chat App',
-    description: 'Real-time messaging application',
+    description: 'Real-time messaging application with WebSocket',
     progress: 24,
     potentialScore: 6.3,
     status: 'active',
@@ -65,7 +55,7 @@ const dummyProjects: Project[] = [
   {
     id: '3',
     name: 'Game Dev',
-    description: '2D platformer game development',
+    description: '2D platformer game with Unity and C#',
     progress: 56,
     potentialScore: 8.5,
     status: 'active',
@@ -79,164 +69,227 @@ const dummyProjects: Project[] = [
       { id: '3', text: 'Add sound effects', completed: false },
       { id: '4', text: 'Polish gameplay', completed: false }
     ]
+  },
+  {
+    id: '4',
+    name: 'E-commerce Platform',
+    description: 'Full-stack online shopping platform',
+    progress: 89,
+    potentialScore: 9.2,
+    status: 'active',
+    lastUpdated: '2024-01-14',
+    language: 'React',
+    stars: 23,
+    forks: 8,
+    tasks: [
+      { id: '1', text: 'User authentication', completed: true },
+      { id: '2', text: 'Product catalog', completed: true },
+      { id: '3', text: 'Shopping cart', completed: true },
+      { id: '4', text: 'Payment integration', completed: false }
+    ]
   }
 ]
 
 export default function Dashboard() {
   const [projects, setProjects] = useState<Project[]>(dummyProjects)
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [expandedSections, setExpandedSections] = useState({
+    ongoing: true,
+    completed: false
+  })
 
   const addNewProject = () => {
     // TODO: Implement GitHub repo selection
     console.log('Add new project')
   }
 
+  const toggleSection = (section: 'ongoing' | 'completed') => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }))
+  }
+
+  const ongoingProjects = projects.filter(p => p.progress < 100)
+  const completedProjects = projects.filter(p => p.progress === 100)
   const totalProgress = Math.round(projects.reduce((sum, p) => sum + p.progress, 0) / projects.length)
-  const activeProjects = projects.filter(p => p.status === 'active').length
-  const totalPotential = Math.round(projects.reduce((sum, p) => sum + p.potentialScore, 0) / projects.length * 10)
 
   return (
-    <div className="min-h-screen bg-black">
-      {/* Mobile Header */}
-      <Header 
-        onMenuClick={() => setSidebarOpen(true)}
-        onAddClick={addNewProject}
-      />
-
-      {/* Sidebar */}
-      <Sidebar 
-        isOpen={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
-      />
+    <div className="min-h-screen bg-[#373539]">
+      {/* Header - No bottom border */}
+      <header className="sticky top-0 z-40 bg-[#373539]/95 backdrop-blur-md px-4 py-6">
+        <div className="flex items-center justify-between">
+          {/* Left side - Hello + Username */}
+          <div className="flex flex-col">
+            <span className="text-lg text-white">Hello</span>
+            <span className="text-3xl font-bold text-white">Mufidul</span>
+          </div>
+          
+          {/* Right side - Bell + Account icons (bigger) */}
+          <div className="flex items-center space-x-4">
+            <button className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center border border-white/20 hover:bg-white/20 transition-colors">
+              <Bell className="h-6 w-6 text-white" />
+            </button>
+            <button className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center border border-white/10 hover:bg-white/30 transition-colors">
+              <User className="h-6 w-6 text-white" />
+            </button>
+          </div>
+        </div>
+      </header>
 
       {/* Main Content */}
-      <main className="lg:pl-64">
-        <div className="px-4 py-8 sm:px-6 lg:px-8">
-          {/* Page Header */}
-          <div className="mb-10">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <h1 className="text-4xl font-bold text-white sm:text-5xl font-inter">
-                  Your vibes
-                </h1>
-                <p className="mt-3 text-base text-[#adadad]">
-                  Track progress across all your projects
-                </p>
-              </div>
-              
-              {/* Add New Project Button */}
-              <div className="mt-6 sm:mt-0">
-                <button
-                  onClick={addNewProject}
-                  className="accent-button inline-flex items-center px-6 py-3"
-                >
-                  <Plus className="h-5 w-5 mr-2" />
-                  Add new
-                </button>
-              </div>
-            </div>
+      <main className="px-4 pb-6 sm:px-6 lg:px-8">
+        {/* Your Projects Section */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-bold text-white">Your Projects</h2>
+            <button
+              onClick={addNewProject}
+              className="bg-white text-gray-900 px-4 py-2 rounded-full font-medium hover:bg-gray-100 transition-colors flex items-center space-x-2"
+            >
+              <Plus className="h-4 w-4" />
+              <span>Add</span>
+            </button>
           </div>
-
-          {/* AI Insights Metrics */}
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold text-white mb-6">AI Insights</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-                className="metric-card-accent"
-              >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-2xl font-bold text-white">{totalProgress}%</p>
-                    <p className="text-sm text-white/80 mt-1">Overall Progress</p>
-                  </div>
-                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
-                    <Target className="h-6 w-6 text-white" />
+          
+          {/* Horizontal Scrollable Project Cards */}
+          <div className="flex space-x-4 overflow-x-auto pb-4 scrollbar-hide">
+            {projects.map((project) => (
+              <div key={project.id} className="flex-shrink-0 w-80 bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">{project.name}</h3>
+                    <p className="text-gray-600 text-sm leading-relaxed">{project.description}</p>
                   </div>
                 </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="metric-card"
-              >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-2xl font-bold text-white">{totalPotential}</p>
-                    <p className="text-sm text-[#9b9a9b] mt-1">Potential Score</p>
-                  </div>
-                  <div className="w-12 h-12 bg-[#2a2a2a] rounded-full flex items-center justify-center">
-                    <Lightbulb className="h-6 w-6 text-[#adadad]" />
-                  </div>
+                
+                {/* AI Rating */}
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-sm text-gray-500">AI Rating</span>
+                  <span className="text-2xl font-bold text-[#007AFF]">{project.potentialScore}</span>
                 </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="metric-card-light"
-              >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-2xl font-bold text-[#d7d7d7]">{activeProjects}</p>
-                    <p className="text-sm text-[#8e8e8e] mt-1">Active Projects</p>
-                  </div>
-                  <div className="w-12 h-12 bg-[#1e1e1e] rounded-full flex items-center justify-center">
-                    <Rocket className="h-6 w-6 text-[#adadad]" />
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          </div>
-
-          {/* Projects Section */}
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold text-white mb-6">Your Projects</h2>
-            <div className="space-y-6">
-              {projects.map((project, index) => (
-                <motion.div
-                  key={project.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 * index }}
-                >
-                  <ProjectCard 
-                    project={project}
-                    viewMode="list"
+                
+                {/* Progress Bar */}
+                <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${project.progress}%` }}
+                    transition={{ duration: 1.2, ease: "easeOut" }}
+                    className="h-2 rounded-full bg-gradient-to-r from-[#383838] via-[#1e1e1e] to-[#040404]"
                   />
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Empty State */}
-            {projects.length === 0 && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="text-center py-16"
-              >
-                <div className="w-20 h-20 bg-[#1e1e1e] rounded-[22px] flex items-center justify-center mx-auto mb-4 border border-[#181818]">
-                  <Github className="h-10 w-10 text-[#adadad]" />
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-2">
-                  No projects yet
-                </h3>
-                <p className="text-[#adadad] mb-6">
-                  Start building your first vibe project.
-                </p>
-                <button
-                  onClick={addNewProject}
-                  className="accent-button inline-flex items-center px-6 py-3"
-                >
-                  <Plus className="h-5 w-5 mr-2" />
-                  Add Your First Project
-                </button>
-              </motion.div>
+                
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600">{project.progress}% Complete</span>
+                  <span className="text-xs text-gray-500">{project.language}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Locked In Meter */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-xl font-bold text-white">Locked in meter</h3>
+            <span className="text-2xl font-bold text-white">{totalProgress}%</span>
+          </div>
+          
+          {/* Thin Progress Bar */}
+          <div className="w-full bg-gray-700 rounded-full h-1">
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: `${totalProgress}%` }}
+              transition={{ duration: 1.5, ease: "easeOut" }}
+              className="h-1 rounded-full bg-gradient-to-r from-[#383838] via-[#1e1e1e] to-[#040404]"
+            />
+          </div>
+        </div>
+
+        {/* Task Sections */}
+        <div className="space-y-6">
+          {/* Ongoing Tasks */}
+          <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+            <button
+              onClick={() => toggleSection('ongoing')}
+              className="w-full flex items-center justify-between mb-4"
+            >
+              <h3 className="text-xl font-bold text-gray-900">Ongoing</h3>
+              <div className="flex items-center space-x-2">
+                <span className="bg-[#007AFF] text-white px-3 py-1 rounded-full text-sm font-medium">
+                  {ongoingProjects.length}
+                </span>
+                {ongoingProjects.length > 4 && (
+                  expandedSections.ongoing ? <ChevronUp className="h-5 w-5 text-gray-500" /> : <ChevronDown className="h-5 w-5 text-gray-500" />
+                )}
+              </div>
+            </button>
+            
+            {expandedSections.ongoing && (
+              <div className="space-y-3">
+                {ongoingProjects.slice(0, expandedSections.ongoing ? undefined : 4).map((project) => (
+                  <div key={project.id} className="flex items-center space-x-3 p-3 rounded-xl hover:bg-gray-50 transition-colors">
+                    <div className="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center">
+                      <div className="w-2 h-2 rounded-full bg-gray-300"></div>
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-medium text-gray-900">{project.name}</p>
+                      <p className="text-sm text-gray-500">{project.description}</p>
+                    </div>
+                    <span className="text-sm text-gray-500">{project.progress}%</span>
+                  </div>
+                ))}
+                {ongoingProjects.length > 4 && !expandedSections.ongoing && (
+                  <button
+                    onClick={() => toggleSection('ongoing')}
+                    className="w-full text-center py-2 text-[#007AFF] hover:bg-gray-50 rounded-lg transition-colors"
+                  >
+                    Show {ongoingProjects.length - 4} more projects
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Completed Tasks */}
+          <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+            <button
+              onClick={() => toggleSection('completed')}
+              className="w-full flex items-center justify-between mb-4"
+            >
+              <h3 className="text-xl font-bold text-gray-900">Completed</h3>
+              <div className="flex items-center space-x-2">
+                <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">
+                  {completedProjects.length}
+                </span>
+                {completedProjects.length > 4 && (
+                  expandedSections.completed ? <ChevronUp className="h-5 w-5 text-gray-500" /> : <ChevronDown className="h-5 w-5 text-gray-500" />
+                )}
+              </div>
+            </button>
+            
+            {expandedSections.completed && (
+              <div className="space-y-3">
+                {completedProjects.slice(0, expandedSections.completed ? undefined : 4).map((project) => (
+                  <div key={project.id} className="flex items-center space-x-3 p-3 rounded-xl hover:bg-gray-50 transition-colors">
+                    <div className="w-5 h-5 rounded-full border-2 border-[#007AFF] bg-[#007AFF] flex items-center justify-center">
+                      <Check className="h-3 w-3 text-white" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-medium text-gray-900 line-through">{project.name}</p>
+                      <p className="text-sm text-gray-500">{project.description}</p>
+                    </div>
+                    <span className="text-sm text-gray-500">100%</span>
+                  </div>
+                ))}
+                {completedProjects.length > 4 && !expandedSections.completed && (
+                  <button
+                    onClick={() => toggleSection('completed')}
+                    className="w-full text-center py-2 text-[#007AFF] hover:bg-gray-50 rounded-lg transition-colors"
+                  >
+                    Show {completedProjects.length - 4} more projects
+                  </button>
+                )}
+              </div>
             )}
           </div>
         </div>
