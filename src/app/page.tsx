@@ -130,93 +130,90 @@ export default function Dashboard() {
   const completedProjects = projects.filter(p => p.progress === 100)
   const totalProgress = Math.round(projects.reduce((sum, p) => sum + p.progress, 0) / projects.length)
 
-  // Theme-based colors
-  const bgColor = isDarkMode ? 'bg-[#373539]' : 'bg-[#F0EDE5]'
-  const cardColor = isDarkMode ? 'bg-[#312F2C]' : 'bg-[#E8E4D8]'
+  // Theme-based colors - Updated to match sophisticated dark theme
+  const bgColor = isDarkMode ? 'bg-[#0A0A0A]' : 'bg-[#F0EDE5]'
+  const cardColor = isDarkMode ? 'bg-[#1A1A1A]' : 'bg-[#E8E4D8]'
   const textColor = isDarkMode ? 'text-white' : 'text-[#373539]'
   const cardTextColor = isDarkMode ? 'text-[#F0EDE5]' : 'text-[#373539]'
-  const headerBg = isDarkMode ? 'bg-[#373539]/95' : 'bg-[#F0EDE5]/95'
+  const headerBg = isDarkMode ? 'bg-[#0A0A0A]/95' : 'bg-[#F0EDE5]/95'
 
   return (
     <div className={`min-h-screen ${bgColor} transition-colors duration-300 sora-regular safe-area-top safe-area-bottom`}>
       {/* iOS Status Bar Fix */}
       <div className="ios-status-bar"></div>
       
-      {/* Header - No bottom border */}
-      <header className={`sticky top-0 z-40 ${headerBg} backdrop-blur-md px-4 py-6 transition-colors duration-300 safe-area-top`}>
+      {/* Header - Simplified like reference image */}
+      <header className={`sticky top-0 z-40 ${headerBg} backdrop-blur-md px-4 py-4 transition-colors duration-300 safe-area-top`}>
         <div className="flex items-center justify-between">
-          {/* Left side - Hello + Username */}
+          {/* Left side - Just projects title */}
           <div className="flex flex-col">
-            <span className={`text-lg ${textColor} sora-thin`}>Hello</span>
-            <span className={`text-3xl ${textColor} sora-black`}>Mufidul</span>
+            <span className={`text-2xl ${textColor} sora-black lowercase`}>projects</span>
           </div>
           
-          {/* Right side - Bell + Account icons (bigger) */}
-          <div className="flex items-center space-x-4">
-            <button className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors">
-              <Bell className="h-6 w-6 text-white" />
-            </button>
-            
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors">
-                  <User className="h-6 w-6 text-white" />
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56 bg-[#312F2C] border-none shadow-xl">
-                <DropdownMenuLabel className="text-[#F0EDE5] sora-medium">My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator className="bg-gray-600" />
-                <DropdownMenuItem className="text-[#F0EDE5] hover:bg-[#3A3835] cursor-pointer sora-regular">
-                  <User className="mr-2 h-4 w-4" />
-                  Profile
-                </DropdownMenuItem>
-                <DropdownMenuItem className="text-[#F0EDE5] hover:bg-[#3A3835] cursor-pointer sora-regular">
-                  <Settings className="mr-2 h-4 w-4" />
-                  Settings
-                </DropdownMenuItem>
-                <DropdownMenuSeparator className="bg-gray-600" />
-                <DropdownMenuItem 
-                  className="text-[#F0EDE5] hover:bg-[#3A3835] cursor-pointer sora-regular"
-                  onClick={toggleTheme}
-                >
-                  {isDarkMode ? (
-                    <>
-                      <Sun className="mr-2 h-4 w-4" />
-                      Light Mode
-                    </>
-                  ) : (
-                    <>
-                      <Moon className="mr-2 h-4 w-4" />
-                      Dark Mode
-                    </>
-                  )}
-                </DropdownMenuItem>
-                <DropdownMenuSeparator className="bg-gray-600" />
-                <DropdownMenuItem className="text-red-400 hover:bg-[#3A3835] cursor-pointer sora-regular">
-                  <LogOut className="mr-2 h-4 w-4" />
-                  Logout
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
+          {/* Right side - Add project button */}
+          <button
+            onClick={addNewProject}
+            className="bg-[#007AFF] text-white px-4 py-2 rounded-lg font-medium hover:bg-[#0056CC] transition-colors flex items-center space-x-2 sora-medium"
+          >
+            <Plus className="h-4 w-4" />
+            <span>add project</span>
+          </button>
         </div>
       </header>
 
       {/* Main Content */}
       <main className="px-4 pb-6 sm:px-6 lg:px-8 safe-area-bottom">
-        {/* Your Projects Section */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className={`text-2xl ${textColor} sora-black`}>Your Projects</h2>
-            <button
-              onClick={addNewProject}
-              className="w-12 h-12 bg-white text-gray-900 rounded-full font-medium hover:bg-gray-100 transition-colors flex items-center justify-center sora-medium"
-            >
-              <Plus className="h-5 w-5" />
-            </button>
+        {/* Search and Controls Section */}
+        <div className="mb-6">
+          {/* Search Bar */}
+          <div className="relative mb-4">
+            <input
+              type="text"
+              placeholder="search projects"
+              className={`w-full pl-10 pr-4 py-3 ${cardColor} rounded-xl border-none focus:outline-none focus:ring-2 focus:ring-[#007AFF] transition-all duration-300 ${cardTextColor} placeholder-${cardTextColor}/60 sora-regular`}
+            />
+            <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
+              <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
           </div>
           
-          {/* Horizontal Scrollable Project Cards - Compressed */}
+          {/* Controls Row */}
+          <div className="flex items-center justify-between">
+            {/* Sort Dropdown */}
+            <div className="flex items-center space-x-2">
+              <select className={`${cardColor} ${cardTextColor} px-3 py-2 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-[#007AFF] transition-all duration-300 sora-regular text-sm`}>
+                <option>sort by last active</option>
+                <option>sort by name</option>
+                <option>sort by progress</option>
+                <option>sort by date created</option>
+              </select>
+            </div>
+            
+            {/* Layout Toggle Icons */}
+            <div className="flex items-center space-x-2">
+              <button className={`p-2 rounded-lg transition-all duration-300 ${cardColor} hover:bg-[#2A2A2A]`}>
+                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                </svg>
+              </button>
+              <button className={`p-2 rounded-lg transition-all duration-300 ${cardColor} hover:bg-[#2A2A2A]`}>
+                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        {/* Animation Space - 20px height */}
+        <div className="h-5 mb-6">
+          {/* This space is reserved for future animations */}
+        </div>
+        
+        {/* Horizontal Scrollable Project Cards - Compressed */}
+        <div className="mb-8">
           <div className="flex space-x-4 overflow-x-auto pb-4 scrollbar-hide">
             {projects.map((project) => (
               <div key={project.id} className={`flex-shrink-0 w-80 ${cardColor} rounded-2xl p-4 shadow-lg transition-colors duration-300`}>
@@ -292,7 +289,7 @@ export default function Dashboard() {
             {expandedSections.ongoing && (
               <div className="space-y-3">
                 {ongoingProjects.slice(0, expandedSections.ongoing ? undefined : 4).map((project) => (
-                  <div key={project.id} className="flex items-center space-x-3 p-3 rounded-xl hover:bg-[#3A3835] transition-colors">
+                  <div key={project.id} className="flex items-center space-x-3 p-3 rounded-xl hover:bg-[#2A2A2A] transition-colors">
                     <div className="w-5 h-5 rounded-full border-2 border-gray-400 flex items-center justify-center">
                       <div className="w-2 h-2 rounded-full bg-gray-400"></div>
                     </div>
@@ -306,7 +303,7 @@ export default function Dashboard() {
                 {ongoingProjects.length > 4 && !expandedSections.ongoing && (
                   <button
                     onClick={() => toggleSection('ongoing')}
-                    className="w-full text-center py-2 text-[#007AFF] hover:bg-[#3A3835] rounded-lg transition-colors sora-regular"
+                    className="w-full text-center py-2 text-[#007AFF] hover:bg-[#2A2A2A] rounded-lg transition-colors sora-regular"
                   >
                     Show {ongoingProjects.length - 4} more projects
                   </button>
@@ -335,7 +332,7 @@ export default function Dashboard() {
             {expandedSections.completed && (
               <div className="space-y-3">
                 {completedProjects.slice(0, expandedSections.completed ? undefined : 4).map((project) => (
-                  <div key={project.id} className="flex items-center space-x-3 p-3 rounded-xl hover:bg-[#3A3835] transition-colors">
+                  <div key={project.id} className="flex items-center space-x-3 p-3 rounded-xl hover:bg-[#2A2A2A] transition-colors">
                     <div className="w-5 h-5 rounded-full border-2 border-[#007AFF] bg-[#007AFF] flex items-center justify-center">
                       <Check className="h-3 w-3 text-white" />
                     </div>
@@ -349,7 +346,7 @@ export default function Dashboard() {
                 {completedProjects.length > 4 && !expandedSections.completed && (
                   <button
                     onClick={() => toggleSection('completed')}
-                    className="w-full text-center py-2 text-[#007AFF] hover:bg-[#3A3835] rounded-lg transition-colors sora-regular"
+                    className="w-full text-center py-2 text-[#007AFF] hover:bg-[#2A2A2A] rounded-lg transition-colors sora-regular"
                   >
                     Show {completedProjects.length - 4} more projects
                   </button>
