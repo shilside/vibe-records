@@ -25,6 +25,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import CurvedLoop from './CurvedLoop'
 
 // Dummy data for MVP testing
 const dummyProjects: Project[] = [
@@ -142,27 +143,89 @@ export default function Dashboard() {
       {/* iOS Status Bar Fix */}
       <div className="ios-status-bar"></div>
       
-      {/* Header - Simplified like reference image */}
+      {/* Header - Only V logo, notification, and account */}
       <header className={`sticky top-0 z-40 ${headerBg} backdrop-blur-md px-4 py-4 transition-colors duration-300 safe-area-top`}>
         <div className="flex items-center justify-between">
-          {/* Left side - Just projects title */}
-          <div className="flex flex-col">
-            <span className={`text-2xl ${textColor} sora-black lowercase`}>projects</span>
+          {/* Left side - V Logo only */}
+          <div className="flex items-center">
+            {/* V Logo */}
+            <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-[#007AFF] to-[#0056CC] rounded-xl shadow-lg">
+              <span className="text-white font-bold text-xl" style={{ fontFamily: 'Orbitron, monospace' }}>V</span>
+            </div>
           </div>
           
-          {/* Right side - Add project button */}
-          <button
-            onClick={addNewProject}
-            className="bg-[#007AFF] text-white px-4 py-2 rounded-lg font-medium hover:bg-[#0056CC] transition-colors flex items-center space-x-2 sora-medium"
-          >
-            <Plus className="h-4 w-4" />
-            <span>add project</span>
-          </button>
+          {/* Right side - Notification + Account */}
+          <div className="flex items-center space-x-3">
+            {/* Notification Bell */}
+            <button className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors shadow-lg">
+              <Bell className="h-5 w-5 text-white" />
+            </button>
+            
+            {/* Account Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors shadow-lg">
+                  <User className="h-5 w-5 text-white" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56 bg-[#1A1A1A] border-none shadow-xl">
+                <DropdownMenuLabel className="text-[#F0EDE5] sora-medium">My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator className="bg-gray-600" />
+                <DropdownMenuItem className="text-[#F0EDE5] hover:bg-[#2A2A2A] cursor-pointer sora-regular">
+                  <User className="mr-2 h-4 w-4" />
+                  Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem className="text-[#F0EDE5] hover:bg-[#2A2A2A] cursor-pointer sora-regular">
+                  <Settings className="mr-2 h-4 w-4" />
+                  Settings
+                </DropdownMenuItem>
+                <DropdownMenuSeparator className="bg-gray-600" />
+                <DropdownMenuItem 
+                  className="text-[#F0EDE5] hover:bg-[#2A2A2A] cursor-pointer sora-regular"
+                  onClick={toggleTheme}
+                >
+                  {isDarkMode ? (
+                    <>
+                      <Sun className="mr-2 h-4 w-4" />
+                      Light Mode
+                    </>
+                  ) : (
+                    <>
+                      <Moon className="mr-2 h-4 w-4" />
+                      Dark Mode
+                    </>
+                  )}
+                </DropdownMenuItem>
+                <DropdownMenuSeparator className="bg-gray-600" />
+                <DropdownMenuItem className="text-red-400 hover:bg-[#2A2A2A] cursor-pointer sora-regular">
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="px-4 pb-6 sm:px-6 lg:px-8 safe-area-bottom">
+      <main className="px-3 pb-6 sm:px-5 lg:px-6 safe-area-bottom" style={{ paddingLeft: '1.2rem', paddingRight: '1.2rem' }}>
+        {/* Animation Space - Space for animation between nav and projects title */}
+        <div className="mb-4" style={{ height: '15rem' }}>
+          {/* CurvedLoop Animation */}
+          <CurvedLoop 
+            marqueeText="Good morning Joshua 🔒 ● Locked in ● Stay locked in ● You are HIM ● Keep going ● Take a break if you have to ● Locked in means no distractions ● Locked in means road to 1 million ● Locked in means road to 1 billion ● You are the king of this sh*t ● You are about to build the biggest project ever ● Locked in ● Keep coding ● Keep vibecoding ● Keep stacking progress ● Stay locked in 🔒 ● You are HIM ● You are chosen ● You are the builder ● Locked in ● Good morning Joshua ● Stay focused ● Road to greatness ● Road to 1 million ● Road to 1 billion ● Locked in 🔒 ● Nothing can stop you ● You are the man ● You got this ● Locked in ● Keep going ● Keep pushing ● Stay locked in ● Remember you are HIM ● Remember you are the king of this sh*t ● Locked in forever ● Build ● Build ● Build ● Locked in ● Keep rising ● Keep shining ● Good morning Joshua 🔒 ● Road to 1 million ● Road to 1 billion ● Locked in ● Stay locked in"
+            speed={2.5}
+            curveAmount={0}
+            interactive={true}
+            className="text-white text-lg sora-medium"
+          />
+        </div>
+        
+        {/* Projects Title - Close to search bar */}
+        <div className="mb-4">
+          <h1 className={`text-3xl ${textColor} sora-black lowercase`}>projects</h1>
+        </div>
+        
         {/* Search and Controls Section */}
         <div className="mb-6">
           {/* Search Bar */}
@@ -170,7 +233,7 @@ export default function Dashboard() {
             <input
               type="text"
               placeholder="search projects"
-              className={`w-full pl-10 pr-4 py-3 ${cardColor} rounded-xl border-none focus:outline-none focus:ring-2 focus:ring-[#007AFF] transition-all duration-300 ${cardTextColor} placeholder-${cardTextColor}/60 sora-regular`}
+              className={`w-full pl-10 pr-4 py-3 ${cardColor} rounded-xl border-none focus:outline-none focus:ring-2 focus:ring-[#007AFF] transition-all duration-300 ${cardTextColor} placeholder-${cardTextColor}/60 sora-regular shadow-lg`}
             />
             <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
               <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -183,7 +246,7 @@ export default function Dashboard() {
           <div className="flex items-center justify-between">
             {/* Sort Dropdown */}
             <div className="flex items-center space-x-2">
-              <select className={`${cardColor} ${cardTextColor} px-3 py-2 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-[#007AFF] transition-all duration-300 sora-regular text-sm`}>
+              <select className={`${cardColor} ${cardTextColor} px-3 py-2 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-[#007AFF] transition-all duration-300 sora-regular text-sm shadow-lg`}>
                 <option>sort by last active</option>
                 <option>sort by name</option>
                 <option>sort by progress</option>
@@ -193,12 +256,12 @@ export default function Dashboard() {
             
             {/* Layout Toggle Icons */}
             <div className="flex items-center space-x-2">
-              <button className={`p-2 rounded-lg transition-all duration-300 ${cardColor} hover:bg-[#2A2A2A]`}>
+              <button className={`p-2 rounded-lg transition-all duration-300 ${cardColor} hover:bg-[#2A2A2A] shadow-lg`}>
                 <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
                 </svg>
               </button>
-              <button className={`p-2 rounded-lg transition-all duration-300 ${cardColor} hover:bg-[#2A2A2A]`}>
+              <button className={`p-2 rounded-lg transition-all duration-300 ${cardColor} hover:bg-[#2A2A2A] shadow-lg`}>
                 <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
                 </svg>
@@ -212,72 +275,28 @@ export default function Dashboard() {
           {/* This space is reserved for future animations */}
         </div>
         
-        {/* Horizontal Scrollable Project Cards - Compressed */}
-        <div className="mb-8">
-          <div className="flex space-x-4 overflow-x-auto pb-4 scrollbar-hide">
-            {projects.map((project) => (
-              <div key={project.id} className={`flex-shrink-0 w-80 ${cardColor} rounded-2xl p-4 shadow-lg transition-colors duration-300`}>
-                <div className="flex items-start justify-between mb-3">
-                  <div className="flex-1">
-                    <h3 className={`text-lg ${cardTextColor} mb-1 sora-black`}>{project.name}</h3>
-                    <p className={`${cardTextColor}/80 text-xs leading-relaxed sora-thin`}>{project.description}</p>
-                  </div>
-                </div>
-                
-                {/* Completion Rate instead of AI Rating */}
-                <div className="flex items-center justify-between mb-3">
-                  <span className={`text-xs ${cardTextColor}/60 sora-thin`}>Completion Rate</span>
-                  <span className="text-xl text-[#007AFF] sora-black">{project.progress}%</span>
-                </div>
-                
-                {/* Progress Bar */}
-                <div className="w-full bg-gray-700 rounded-full h-1.5 mb-2">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: `${project.progress}%` }}
-                    transition={{ duration: 1.2, ease: "easeOut" }}
-                    className="h-1.5 rounded-full bg-gradient-to-r from-[#383838] via-[#1e1e1e] to-[#040404]"
-                  />
-                </div>
-                
-                <div className="flex items-center justify-between">
-                  <span className={`text-xs ${cardTextColor}/60 sora-thin`}>{project.progress}% Complete</span>
-                  <span className={`text-xs ${cardTextColor}/60 sora-thin`}>{project.language}</span>
-                </div>
-              </div>
-            ))}
-          </div>
+        {/* Add Project Button - Fixed colors */}
+        <div className="mb-6 flex justify-end">
+          <button
+            onClick={addNewProject}
+            className={`${cardColor} ${cardTextColor} px-4 py-2 rounded-lg font-medium hover:bg-[#2A2A2A] transition-all duration-300 flex items-center space-x-2 sora-medium shadow-lg border border-white/10`}
+          >
+            <Plus className="h-4 w-4" />
+            <span>add project</span>
+          </button>
         </div>
-
-        {/* Locked In Meter - Thicker and more visible */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className={`text-xl ${textColor} sora-black`}>Locked in meter</h3>
-            <span className={`text-3xl ${textColor} sora-black`}>{totalProgress}%</span>
-          </div>
-          
-          {/* Thicker Progress Bar */}
-          <div className="w-full bg-gray-600 rounded-full h-3">
-            <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: `${totalProgress}%` }}
-              transition={{ duration: 1.5, ease: "easeOut" }}
-              className="h-3 rounded-full bg-gradient-to-r from-[#383838] via-[#1e1e1e] to-[#040404]"
-            />
-          </div>
-        </div>
-
-        {/* Task Sections */}
+        
+        {/* Ongoing Section - Only section we're keeping */}
         <div className="space-y-6">
           {/* Ongoing Tasks */}
-          <div className={`${cardColor} rounded-2xl p-6 shadow-lg transition-colors duration-300`}>
+          <div className={`${cardColor} rounded-2xl p-6 shadow-xl transition-colors duration-300 border border-white/5`}>
             <button
               onClick={() => toggleSection('ongoing')}
               className="w-full flex items-center justify-between mb-4"
             >
-              <h3 className={`text-2xl ${cardTextColor} sora-black`}>Ongoing</h3>
+              <h3 className={`text-2xl ${cardTextColor} sora-black lowercase`}>ongoing</h3>
               <div className="flex items-center space-x-2">
-                <span className="bg-[#007AFF] text-white px-3 py-1 rounded-full text-sm font-medium sora-medium">
+                <span className="bg-[#007AFF] text-white px-3 py-1 rounded-full text-sm font-medium sora-medium shadow-lg">
                   {ongoingProjects.length}
                 </span>
                 {ongoingProjects.length > 4 && (
@@ -313,14 +332,14 @@ export default function Dashboard() {
           </div>
 
           {/* Completed Tasks */}
-          <div className={`${cardColor} rounded-2xl p-6 shadow-lg transition-colors duration-300`}>
+          <div className={`${cardColor} rounded-2xl p-6 shadow-xl transition-colors duration-300 border border-white/5`}>
             <button
               onClick={() => toggleSection('completed')}
               className="w-full flex items-center justify-between mb-4"
             >
-              <h3 className={`text-2xl ${cardTextColor} sora-black`}>Completed</h3>
+              <h3 className={`text-2xl ${cardTextColor} sora-black lowercase`}>completed</h3>
               <div className="flex items-center space-x-2">
-                <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium sora-medium">
+                <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium sora-medium shadow-lg">
                   {completedProjects.length}
                 </span>
                 {completedProjects.length > 4 && (
@@ -345,7 +364,7 @@ export default function Dashboard() {
                 ))}
                 {completedProjects.length > 4 && !expandedSections.completed && (
                   <button
-                    onClick={() => toggleSection('completed')}
+                    onClick={() => toggleSection('ongoing')}
                     className="w-full text-center py-2 text-[#007AFF] hover:bg-[#2A2A2A] rounded-lg transition-colors sora-regular"
                   >
                     Show {completedProjects.length - 4} more projects
