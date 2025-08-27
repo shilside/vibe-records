@@ -9,15 +9,58 @@
 @layer base {
   html {
     font-family: 'Sora', system-ui, sans-serif;
+    /* iOS safe area handling */
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   }
   
   body {
     @apply bg-[#373539] text-white;
     font-feature-settings: 'rlig' 1, 'calt' 1;
+    /* iOS status bar and home indicator fixes */
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    /* Prevent iOS bounce */
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
   }
   
   * {
     @apply border-transparent;
+  }
+  
+  /* iOS-specific fixes */
+  @supports (-webkit-touch-callout: none) {
+    body {
+      /* iOS Safari specific */
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    
+    /* Fix iOS status bar */
+    .ios-status-bar {
+      height: env(safe-area-inset-top);
+      background: #373539;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 9999;
+    }
+    
+    /* Fix iOS home indicator area */
+    .ios-home-indicator {
+      height: env(safe-area-inset-bottom);
+      background: #373539;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 9999;
+    }
   }
 }
 
@@ -143,6 +186,23 @@
   
   .text-light {
     @apply text-[#F0EDE5];
+  }
+  
+  /* iOS Safe Area Utilities */
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .safe-area-left {
+    padding-left: env(safe-area-inset-left);
+  }
+  
+  .safe-area-right {
+    padding-right: env(safe-area-inset-right);
   }
 }
 

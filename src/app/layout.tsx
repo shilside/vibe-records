@@ -1,22 +1,35 @@
-import type { Metadata, Viewport } from 'next'
-import { Inter } from 'next/font/google'
+import type { Metadata } from 'next'
 import './globals.css'
 
-const inter = Inter({ subsets: ['latin'] })
-
 export const metadata: Metadata = {
-  title: 'vibe-records - Track Your GitHub Progress',
-  description: 'A productivity dashboard for vibe coders to track GitHub repo progress with AI insights',
-  keywords: ['productivity', 'github', 'progress-tracking', 'developer-tools', 'vibe-coders'],
-  authors: [{ name: 'vibe-records' }],
-  manifest: '/manifest.json',
+  title: 'Vibe Records - Productivity Dashboard',
+  description: 'Track your GitHub repository progress with AI insights and visual progress indicators',
+  keywords: 'productivity, github, progress tracking, dashboard, developer tools',
+  authors: [{ name: 'Vibe Records Team' }],
+  creator: 'Vibe Records',
+  publisher: 'Vibe Records',
+  robots: 'index, follow',
+  openGraph: {
+    title: 'Vibe Records - Productivity Dashboard',
+    description: 'Track your GitHub repository progress with AI insights and visual progress indicators',
+    type: 'website',
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Vibe Records - Productivity Dashboard',
+    description: 'Track your GitHub repository progress with AI insights and visual progress indicators',
+  },
 }
 
-export const viewport: Viewport = {
+export const viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
-  themeColor: '#0ea5e9',
+  userScalable: false,
+  viewportFit: 'cover',
+  themeColor: '#373539',
+  colorScheme: 'dark',
 }
 
 export default function RootLayout({
@@ -26,8 +39,30 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="h-full">
-      <body className={`${inter.className} h-full antialiased`}>
-        <div className="min-h-full bg-white">
+      <head>
+        {/* iOS-specific meta tags for home screen app */}
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="Vibe Records" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="msapplication-TileColor" content="#373539" />
+        <meta name="msapplication-config" content="/browserconfig.xml" />
+        
+        {/* iOS status bar and home indicator fixes */}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+        
+        {/* Prevent zoom on input focus */}
+        <meta name="format-detection" content="telephone=no" />
+        
+        {/* iOS splash screen */}
+        <link rel="apple-touch-startup-image" href="/splash.png" />
+        <link rel="apple-touch-icon" href="/icon-192.png" />
+        <link rel="apple-touch-icon" sizes="152x152" href="/icon-152.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/icon-180.png" />
+        <link rel="apple-touch-icon" sizes="167x167" href="/icon-167.png" />
+      </head>
+      <body className="h-full">
+        <div className="min-h-full">
           {children}
         </div>
       </body>

@@ -132,15 +132,18 @@ export default function Dashboard() {
 
   // Theme-based colors
   const bgColor = isDarkMode ? 'bg-[#373539]' : 'bg-[#F0EDE5]'
-  const cardColor = isDarkMode ? 'bg-[#312F2C]' : 'bg-white'
+  const cardColor = isDarkMode ? 'bg-[#312F2C]' : 'bg-[#E8E4D8]'
   const textColor = isDarkMode ? 'text-white' : 'text-[#373539]'
   const cardTextColor = isDarkMode ? 'text-[#F0EDE5]' : 'text-[#373539]'
   const headerBg = isDarkMode ? 'bg-[#373539]/95' : 'bg-[#F0EDE5]/95'
 
   return (
-    <div className={`min-h-screen ${bgColor} transition-colors duration-300`}>
+    <div className={`min-h-screen ${bgColor} transition-colors duration-300 sora-regular safe-area-top safe-area-bottom`}>
+      {/* iOS Status Bar Fix */}
+      <div className="ios-status-bar"></div>
+      
       {/* Header - No bottom border */}
-      <header className={`sticky top-0 z-40 ${headerBg} backdrop-blur-md px-4 py-6 transition-colors duration-300`}>
+      <header className={`sticky top-0 z-40 ${headerBg} backdrop-blur-md px-4 py-6 transition-colors duration-300 safe-area-top`}>
         <div className="flex items-center justify-between">
           {/* Left side - Hello + Username */}
           <div className="flex flex-col">
@@ -200,14 +203,14 @@ export default function Dashboard() {
       </header>
 
       {/* Main Content */}
-      <main className="px-4 pb-6 sm:px-6 lg:px-8">
+      <main className="px-4 pb-6 sm:px-6 lg:px-8 safe-area-bottom">
         {/* Your Projects Section */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <h2 className={`text-2xl ${textColor} sora-black`}>Your Projects</h2>
             <button
               onClick={addNewProject}
-              className="w-12 h-12 bg-white text-gray-900 rounded-full font-medium hover:bg-gray-100 transition-colors flex items-center justify-center"
+              className="w-12 h-12 bg-white text-gray-900 rounded-full font-medium hover:bg-gray-100 transition-colors flex items-center justify-center sora-medium"
             >
               <Plus className="h-5 w-5" />
             </button>
@@ -277,7 +280,7 @@ export default function Dashboard() {
             >
               <h3 className={`text-2xl ${cardTextColor} sora-black`}>Ongoing</h3>
               <div className="flex items-center space-x-2">
-                <span className="bg-[#007AFF] text-white px-3 py-1 rounded-full text-sm font-medium">
+                <span className="bg-[#007AFF] text-white px-3 py-1 rounded-full text-sm font-medium sora-medium">
                   {ongoingProjects.length}
                 </span>
                 {ongoingProjects.length > 4 && (
@@ -303,7 +306,7 @@ export default function Dashboard() {
                 {ongoingProjects.length > 4 && !expandedSections.ongoing && (
                   <button
                     onClick={() => toggleSection('ongoing')}
-                    className="w-full text-center py-2 text-[#007AFF] hover:bg-[#3A3835] rounded-lg transition-colors"
+                    className="w-full text-center py-2 text-[#007AFF] hover:bg-[#3A3835] rounded-lg transition-colors sora-regular"
                   >
                     Show {ongoingProjects.length - 4} more projects
                   </button>
@@ -320,7 +323,7 @@ export default function Dashboard() {
             >
               <h3 className={`text-2xl ${cardTextColor} sora-black`}>Completed</h3>
               <div className="flex items-center space-x-2">
-                <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">
+                <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium sora-medium">
                   {completedProjects.length}
                 </span>
                 {completedProjects.length > 4 && (
@@ -346,7 +349,7 @@ export default function Dashboard() {
                 {completedProjects.length > 4 && !expandedSections.completed && (
                   <button
                     onClick={() => toggleSection('completed')}
-                    className="w-full text-center py-2 text-[#007AFF] hover:bg-[#3A3835] rounded-lg transition-colors"
+                    className="w-full text-center py-2 text-[#007AFF] hover:bg-[#3A3835] rounded-lg transition-colors sora-regular"
                   >
                     Show {completedProjects.length - 4} more projects
                   </button>
@@ -356,6 +359,9 @@ export default function Dashboard() {
           </div>
         </div>
       </main>
+      
+      {/* iOS Home Indicator Fix */}
+      <div className="ios-home-indicator"></div>
     </div>
   )
 }
