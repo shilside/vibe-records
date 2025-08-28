@@ -25,7 +25,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import CurvedLoop from './CurvedLoop'
+import CustomCurvedLoop from '../components/CustomCurvedLoop'
 
 // Dummy data for MVP testing
 const dummyProjects: Project[] = [
@@ -210,15 +210,64 @@ export default function Dashboard() {
       {/* Main Content */}
       <main className="px-3 pb-6 sm:px-5 lg:px-6 safe-area-bottom" style={{ paddingLeft: '1.2rem', paddingRight: '1.2rem' }}>
         {/* Animation Space - Space for animation between nav and projects title */}
-        <div className="mb-4" style={{ height: '15rem' }}>
-          {/* CurvedLoop Animation */}
-          <CurvedLoop 
-            marqueeText="Good morning Joshua 🔒 ● Locked in ● Stay locked in ● You are HIM ● Keep going ● Take a break if you have to ● Locked in means no distractions ● Locked in means road to 1 million ● Locked in means road to 1 billion ● You are the king of this sh*t ● You are about to build the biggest project ever ● Locked in ● Keep coding ● Keep vibecoding ● Keep stacking progress ● Stay locked in 🔒 ● You are HIM ● You are chosen ● You are the builder ● Locked in ● Good morning Joshua ● Stay focused ● Road to greatness ● Road to 1 million ● Road to 1 billion ● Locked in 🔒 ● Nothing can stop you ● You are the man ● You got this ● Locked in ● Keep going ● Keep pushing ● Stay locked in ● Remember you are HIM ● Remember you are the king of this sh*t ● Locked in forever ● Build ● Build ● Build ● Locked in ● Keep rising ● Keep shining ● Good morning Joshua 🔒 ● Road to 1 million ● Road to 1 billion ● Locked in ● Stay locked in"
-            speed={2.5}
-            curveAmount={0}
-            interactive={true}
-            className="text-white text-lg sora-medium"
-          />
+        <div className="mb-6" style={{ height: '15rem' }}>
+          {/* Multi-line CurvedLoop Animation */}
+          <div className="flex flex-col w-full h-full overflow-hidden space-y-2">
+            {/* Line 1 */}
+            <div className="w-full flex-shrink-0" style={{ height: '2.8rem' }}>
+              <CustomCurvedLoop 
+                marqueeText="Good morning Joshua 🔒 ● Locked in ● Stay locked in ● You are HIM ● Keep going ● Take a break if you have to ● Locked in means no distractions ● Locked in means road to 1 million ● Locked in means road to 1 billion ● You are the king of this sh*t ● You are about to build the biggest project ever ● Locked in ● Keep coding ● Keep vibecoding ● Keep stacking progress ● Stay locked in 🔒 ● You are HIM ● You are chosen ● You are the builder ● Locked in ● Good morning Joshua ● Stay focused ● Road to greatness ● Road to 1 million ● Road to 1 billion ● Locked in 🔒 ● Nothing can stop you ● You are the man ● You got this ● Locked in ● Keep going ● Keep pushing ● Stay locked in ● Remember you are HIM ● Remember you are the king of this sh*t ● Locked in forever ● Build ● Build ● Build ● Locked in ● Keep rising ● Keep shining ● Good morning Joshua 🔒 ● Road to 1 million ● Road to 1 billion ● Locked in ● Stay locked in"
+                speed={2.5}
+                curveAmount={0}
+                interactive={true}
+                className="sora-medium"
+              />
+            </div>
+            
+            {/* Line 2 */}
+            <div className="w-full flex-shrink-0" style={{ height: '2.8rem' }}>
+              <CustomCurvedLoop 
+                marqueeText="You are the builder ● Locked in ● Good morning Joshua ● Stay focused ● Road to greatness ● Road to 1 million ● Road to 1 billion ● Locked in 🔒 ● Nothing can stop you ● You are the man ● You got this ● Locked in ● Keep going ● Keep pushing ● Stay locked in ● Remember you are HIM ● Remember you are the king of this sh*t ● Locked in forever ● Build ● Build ● Build ● Locked in ● Keep rising ● Keep shining ● Good morning Joshua 🔒 ● Road to 1 million ● Road to 1 billion ● Locked in ● Stay locked in ● You are HIM ● Keep going ● Take a break if you have to ● Locked in means no distractions ● Locked in means road to 1 million ● Locked in means road to 1 billion ● You are the king of this sh*t ● You are about to build the biggest project ever ● Locked in ● Keep coding ● Keep vibecoding ● Keep stacking progress ● Stay locked in 🔒 ● You are HIM ● You are chosen"
+                speed={2.8}
+                curveAmount={0}
+                interactive={true}
+                className="sora-medium"
+              />
+            </div>
+            
+            {/* Line 3 */}
+            <div className="w-full flex-shrink-0" style={{ height: '2.8rem' }}>
+              <CustomCurvedLoop 
+                marqueeText="Locked in means road to 1 million ● Locked in means road to 1 billion ● You are the king of this sh*t ● You are about to build the biggest project ever ● Locked in ● Keep coding ● Keep vibecoding ● Keep stacking progress ● Stay locked in 🔒 ● You are HIM ● You are chosen ● You are the builder ● Locked in ● Good morning Joshua ● Stay focused ● Road to greatness ● Road to 1 million ● Road to 1 billion ● Locked in 🔒 ● Nothing can stop you ● You are the man ● You got this ● Locked in ● Keep going ● Keep pushing ● Stay locked in ● Remember you are HIM ● Remember you are the king of this sh*t ● Locked in forever ● Build ● Build ● Build ● Locked in ● Keep rising ● Keep shining ● Good morning Joshua 🔒 ● Road to 1 million ● Road to 1 billion ● Locked in ● Stay locked in ● You are HIM ● Keep going ● Take a break if you have to ● Locked in means no distractions"
+                speed={3.1}
+                curveAmount={0}
+                interactive={true}
+                className="sora-medium"
+              />
+            </div>
+            
+            {/* Line 4 */}
+            <div className="w-full flex-shrink-0" style={{ height: '2.8rem' }}>
+              <CustomCurvedLoop 
+                marqueeText="Keep coding ● Keep vibecoding ● Keep stacking progress ● Stay locked in 🔒 ● You are HIM ● You are chosen ● You are the builder ● Locked in ● Good morning Joshua ● Stay focused ● Road to greatness ● Road to 1 million ● Road to 1 billion ● Locked in 🔒 ● Nothing can stop you ● You are the man ● You got this ● Locked in ● Keep going ● Keep pushing ● Stay locked in ● Remember you are HIM ● Remember you are the king of this sh*t ● Locked in forever ● Build ● Build ● Build ● Locked in ● Keep rising ● Keep shining ● Good morning Joshua 🔒 ● Road to 1 million ● Road to 1 billion ● Locked in ● Stay locked in ● You are HIM ● Keep going ● Take a break if you have to ● Locked in means no distractions ● Locked in means road to 1 million ● Locked in means road to 1 billion ● You are the king of this sh*t ● You are about to build the biggest project ever ● Locked in"
+                speed={2.7}
+                curveAmount={0}
+                interactive={true}
+                className="sora-medium"
+              />
+            </div>
+            
+            {/* Line 5 */}
+            <div className="w-full flex-shrink-0" style={{ height: '2.8rem' }}>
+              <CustomCurvedLoop 
+                marqueeText="Remember you are HIM ● Remember you are the king of this sh*t ● Locked in forever ● Build ● Build ● Build ● Locked in ● Keep rising ● Keep shining ● Good morning Joshua 🔒 ● Road to 1 million ● Road to 1 billion ● Locked in ● Stay locked in ● You are HIM ● Keep going ● Take a break if you have to ● Locked in means no distractions ● Locked in means road to 1 million ● Locked in means road to 1 billion ● You are the king of this sh*t ● You are about to build the biggest project ever ● Locked in ● Keep coding ● Keep vibecoding ● Keep stacking progress ● Stay locked in 🔒 ● You are HIM ● You are chosen ● You are the builder ● Locked in ● Good morning Joshua ● Stay focused ● Road to greatness ● Road to 1 million ● Road to 1 billion ● Locked in 🔒 ● Nothing can stop you ● You are the man ● You got this ● Locked in ● Keep going ● Keep pushing ● Stay locked in"
+                speed={2.9}
+                curveAmount={0}
+                interactive={true}
+                className="sora-medium"
+              />
+            </div>
+          </div>
         </div>
         
         {/* Projects Title - Close to search bar */}
