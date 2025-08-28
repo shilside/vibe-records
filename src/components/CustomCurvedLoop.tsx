@@ -7,6 +7,7 @@ import {
   FC,
   PointerEvent,
 } from "react";
+import GradientText from '../../2/GradientText/GradientText';
 
 interface CustomCurvedLoopProps {
   marqueeText?: string;
@@ -92,10 +93,8 @@ const CustomCurvedLoop: FC<CustomCurvedLoopProps> = ({
 
   const onPointerDown = (e: PointerEvent) => {
     if (!interactive) return;
-    dragRef.current = true;
-    lastXRef.current = e.clientX;
-    velRef.current = 0;
-    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+    // Disabled dragging for motivational text
+    return;
   };
 
   const onPointerMove = (e: PointerEvent) => {
@@ -136,8 +135,8 @@ const CustomCurvedLoop: FC<CustomCurvedLoopProps> = ({
       onPointerLeave={endDrag}
     >
       <svg
-        className="select-none w-full overflow-visible block aspect-[100/3] font-medium leading-none"
-        style={{ fontSize: '75px' }}
+        className="select-none w-full overflow-visible block aspect-[100/3] font-medium leading-none motivational-text"
+        style={{ fontSize: '90px' }}
         viewBox="0 0 1440 40"
       >
         <text
@@ -155,9 +154,16 @@ const CustomCurvedLoop: FC<CustomCurvedLoopProps> = ({
             fill="none"
             stroke="transparent"
           />
+          <linearGradient id="motivationalGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#F0EDE5" />
+            <stop offset="25%" stopColor="#C0C0C0" />
+            <stop offset="50%" stopColor="#F0EDE5" />
+            <stop offset="75%" stopColor="#C0C0C0" />
+            <stop offset="100%" stopColor="#F0EDE5" />
+          </linearGradient>
         </defs>
         {ready && (
-          <text xmlSpace="preserve" className={`fill-[#F0EDE5] ${className ?? ""}`}>
+          <text xmlSpace="preserve" className={`motivational-gradient ${className ?? ""}`}>
             <textPath
               ref={textPathRef}
               href={`#${pathId}`}
