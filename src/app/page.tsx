@@ -17,6 +17,8 @@ import {
   LogOut
 } from 'lucide-react'
 import { Project } from '@/types/project'
+import { ProjectCard } from '@/types/github'
+import { useGitHubProjects } from '@/hooks/useGitHubProjects'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -110,6 +112,11 @@ export default function Dashboard() {
     completed: false
   })
   const [isDarkMode, setIsDarkMode] = useState(true)
+  const [githubUsername, setGithubUsername] = useState('')
+  const [useRealData, setUseRealData] = useState(false)
+  
+  // GitHub data hook
+  const { projects: githubProjects, loading: githubLoading, error: githubError, refetch } = useGitHubProjects(githubUsername)
 
   const addNewProject = () => {
     // TODO: Implement GitHub repo selection
@@ -127,9 +134,27 @@ export default function Dashboard() {
     setIsDarkMode(!isDarkMode)
   }
 
-  const ongoingProjects = projects.filter(p => p.progress < 100)
-  const completedProjects = projects.filter(p => p.progress === 100)
-  const totalProgress = Math.round(projects.reduce((sum, p) => sum + p.progress, 0) / projects.length)
+  // Convert GitHub projects to the format expected by the UI
+  const convertedGitHubProjects: Project[] = githubProjects.map(githubProject => ({
+    id: githubProject.id,
+    name: githubProject.name,
+    description: githubProject.description,
+    progress: githubProject.progress,
+    potentialScore: Math.random() * 10, // Placeholder for now
+    status: githubProject.status === 'ongoing' ? 'active' : 'completed',
+    lastUpdated: githubProject.lastUpdated,
+    language: githubProject.language,
+    stars: githubProject.stars,
+    forks: githubProject.forks,
+    tasks: [] // Placeholder for now
+  }))
+
+  // Use either dummy data or real GitHub data
+  const displayProjects = useRealData ? convertedGitHubProjects : projects
+  
+  const ongoingProjects = displayProjects.filter(p => p.progress < 100)
+  const completedProjects = displayProjects.filter(p => p.progress === 100)
+  const totalProgress = displayProjects.length > 0 ? Math.round(displayProjects.reduce((sum, p) => sum + p.progress, 0) / displayProjects.length) : 0
 
   // Theme-based colors - Updated to match sophisticated dark theme
   const bgColor = isDarkMode ? 'bg-[#0A0A0A]' : 'bg-[#F0EDE5]'
@@ -275,6 +300,52 @@ export default function Dashboard() {
           <h1 className={`text-3xl ${textColor} sora-black lowercase`}>projects</h1>
         </div>
         
+        {/* GitHub Integration Section */}
+        <div className={`${cardColor} rounded-xl p-4 mb-4 shadow-lg border border-white/5`}>
+          <div className="flex items-center justify-between mb-3">
+            <h3 className={`text-lg ${cardTextColor} sora-medium`}>GitHub Integration</h3>
+            <button
+              onClick={() => setUseRealData(!useRealData)}
+              className={`px-3 py-1 rounded-lg text-sm sora-regular transition-all duration-300 ${
+                useRealData 
+                  ? 'bg-[#007AFF] text-white' 
+                  : 'bg-gray-600 text-gray-300'
+              }`}
+            >
+              {useRealData ? 'Using Real Data' : 'Use Dummy Data'}
+            </button>
+          </div>
+          
+          {useRealData && (
+            <div className="flex items-center space-x-3">
+              <input
+                type="text"
+                placeholder="Enter GitHub username"
+                value={githubUsername}
+                onChange={(e) => setGithubUsername(e.target.value)}
+                className={`flex-1 px-3 py-2 ${cardColor} rounded-lg border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#007AFF] transition-all duration-300 ${cardTextColor} placeholder-${cardTextColor}/60 sora-regular text-sm`}
+              />
+              <button
+                onClick={refetch}
+                disabled={!githubUsername || githubLoading}
+                className={`px-4 py-2 rounded-lg text-sm sora-regular transition-all duration-300 ${
+                  githubUsername && !githubLoading
+                    ? 'bg-[#007AFF] text-white hover:bg-[#0056CC]'
+                    : 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                }`}
+              >
+                {githubLoading ? 'Loading...' : 'Fetch'}
+              </button>
+            </div>
+          )}
+          
+          {githubError && (
+            <div className="mt-3 p-3 bg-red-900/20 border border-red-500/30 rounded-lg">
+              <p className="text-red-400 text-sm sora-regular">{githubError}</p>
+            </div>
+          )}
+        </div>
+        
         {/* Search and Controls Section */}
         <div className="mb-6">
           {/* Search Bar */}
@@ -356,7 +427,19 @@ export default function Dashboard() {
             
             {expandedSections.ongoing && (
               <div className="space-y-3">
-                {ongoingProjects.slice(0, expandedSections.ongoing ? undefined : 4).map((project) => (
+                {useRealData && githubLoading ? (
+                  <div className="flex items-center justify-center py-8">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#007AFF]"></div>
+                    <span className={`ml-3 ${cardTextColor} sora-regular`}>Loading GitHub projects...</span>
+                  </div>
+                ) : ongoingProjects.length === 0 ? (
+                  <div className="text-center py-8">
+                    <p className={`${cardTextColor}/70 sora-regular`}>
+                      {useRealData ? 'No projects found. Try a different username.' : 'No ongoing projects.'}
+                    </p>
+                  </div>
+                ) : (
+                  ongoingProjects.slice(0, expandedSections.ongoing ? undefined : 4).map((project) => (
                   <div key={project.id} className="flex items-center space-x-3 p-3 rounded-xl hover:bg-[#2A2A2A] transition-colors">
                     <div className="w-5 h-5 rounded-full border-2 border-gray-400 flex items-center justify-center">
                       <div className="w-2 h-2 rounded-full bg-gray-400"></div>
@@ -367,7 +450,8 @@ export default function Dashboard() {
                     </div>
                     <span className={`text-xs ${cardTextColor}/70 sora-thin`}>{project.progress}%</span>
                   </div>
-                ))}
+                  ))
+                )}
                 {ongoingProjects.length > 4 && !expandedSections.ongoing && (
                   <button
                     onClick={() => toggleSection('ongoing')}
