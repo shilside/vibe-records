@@ -212,7 +212,7 @@ export default function Dashboard() {
         {/* Animation Space - Space for animation between nav and projects title */}
         <div className="mb-6" style={{ height: '15rem' }}>
           {/* Multi-line CurvedLoop Animation */}
-          <div className="flex flex-col w-full h-full overflow-hidden" style={{ gap: '0.5rem' }}>
+          <div className="flex flex-col w-full h-full overflow-hidden motivational-spacing">
             {/* Line 1 */}
             <div className="w-full flex-shrink-0" style={{ height: '2.5rem' }}>
               <CustomCurvedLoop 

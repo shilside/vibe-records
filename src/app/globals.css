@@ -236,6 +236,18 @@
   /* Motivational Text Gradient */
   .motivational-gradient {
     fill: url(#motivationalGradient);
+    opacity: 0.2;
+  }
+  
+  /* Motivational Text Spacing */
+  .motivational-spacing {
+    gap: 0.5rem;
+  }
+  
+  @media (max-width: 768px) {
+    .motivational-spacing {
+      gap: 0.2rem;
+    }
   }
   
   /* Theme Colors */
